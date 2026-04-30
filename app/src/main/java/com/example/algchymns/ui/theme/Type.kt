@@ -14,7 +14,7 @@ val baseStyle = TextStyle(
 )
 
 val tsOrion = baseStyle.copy(
-    fontSize = 16.sp,
+    fontSize = 18.sp,
     fontWeight = FontWeight.Normal,
 )
 
