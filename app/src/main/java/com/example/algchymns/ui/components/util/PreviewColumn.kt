@@ -34,11 +34,7 @@ fun PreviewColumn(
                 .padding(vertical = verticalPadding),
             contentAlignment = Alignment.Center,
         ) {
-            ParticleLayer(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .zIndex(1f)
-            )
+            BackgroundLayer()
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp),
