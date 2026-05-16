@@ -22,11 +22,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.TextRange
@@ -68,6 +70,7 @@ import kotlinx.coroutines.flow.onEach
 @OptIn(FlowPreview::class)
 class CustomTextFieldState(
     private val keyboard: SoftwareKeyboardController?,
+    private val focusManager: FocusManager,
     coroutineScope: CoroutineScope,
     private val onQueryChange: (String) -> Unit,
     initText: String = "",
@@ -105,6 +108,9 @@ class CustomTextFieldState(
             }
             // if focus is requested programmatically, keyboard might not show
             keyboard?.show()
+        } else {
+            focusManager.clearFocus()
+            keyboard?.hide()
         }
 
     }
@@ -142,10 +148,12 @@ fun rememberCustomTextFieldState(
     initText: String = "",
 ): CustomTextFieldState {
     val keyboard = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
     return remember {
         CustomTextFieldState(
             keyboard = keyboard,
+            focusManager = focusManager,
             coroutineScope = coroutineScope,
             onQueryChange = onQueryChange,
             initText = initText,
@@ -239,8 +247,10 @@ fun CustomSearchTextField(
 private fun CustomSearchTextFieldPreview() {
     PreviewColumn {
         val keyboard = LocalSoftwareKeyboardController.current
+        val focusManager = LocalFocusManager.current
         val textFieldState = CustomTextFieldState(
             keyboard=keyboard,
+            focusManager = focusManager,
             coroutineScope = rememberCoroutineScope(),
             onQueryChange = {},
         )
