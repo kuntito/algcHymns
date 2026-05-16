@@ -6,13 +6,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.algchymns.ui.components.screens.HymnListScreenRoot
 import com.example.algchymns.ui.components.screens.HymnSearchScreenRoot
+import com.example.algchymns.ui.components.screens.home_screen.HomeScreenRoot
 import kotlinx.serialization.Serializable
 
 sealed class AppScreens {
     @Serializable
-    object HymnListScreen
+    object HomeScreen
 
     @Serializable
     object HymnSearchScreen
@@ -26,12 +26,12 @@ fun ScreenNavigation(
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = AppScreens.HymnListScreen,
+        startDestination = AppScreens.HomeScreen,
         modifier = modifier
             .fillMaxSize()
     ) {
-        composable<AppScreens.HymnListScreen>{
-            HymnListScreenRoot(
+        composable<AppScreens.HomeScreen>{
+            HomeScreenRoot(
                 hymnViewModel = hymnViewModel,
             )
         }

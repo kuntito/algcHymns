@@ -3,24 +3,50 @@ package com.example.algchymns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.algchymns.data.db.hymn.toHymn
-import com.example.algchymns.data.remote.response_models.Hymn
 import com.example.algchymns.data.repo.AlgcRepo
-import kotlinx.coroutines.flow.SharingStarted
+import com.example.algchymns.ui.components.screens.home_screen.models.HymnSyncState
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class HymnViewModel(
-    repo: AlgcRepo,
+    private val repo: AlgcRepo,
 ): ViewModel() {
 
-    val allHymns: StateFlow<List<Hymn>> = repo.getAllHymns()
-        .map { hymnWithVersesList ->
-            hymnWithVersesList.map { it.toHymn() }
+    private val _hymnSyncState = MutableStateFlow<HymnSyncState>(
+        HymnSyncState.Idle
+    )
+    val hymnSyncState: StateFlow<HymnSyncState>
+        get() = _hymnSyncState
+
+
+    init {
+        viewModelScope.launch {
+            val cachedHymns = repo.getCachedHymns()
+            if (cachedHymns.isNotEmpty()) {
+                _hymnSyncState.value = HymnSyncState.HymnsLoaded(
+                    hymns = cachedHymns.map { it.toHymn() }
+                )
+            } else {
+                downloadHymns()
+            }
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList(),
-        )
+    }
+
+    private fun downloadHymns() {
+        viewModelScope.launch {
+            _hymnSyncState.value = HymnSyncState.DownloadingHymns
+            val downloadedHymns = repo.downloadHymns()
+
+            _hymnSyncState.value = if (downloadedHymns == null) {
+                HymnSyncState.HymnDownloadError
+            } else {
+                HymnSyncState.HymnsLoaded(
+                    hymns = downloadedHymns.map{ it.toHymn() }
+                )
+            }
+        }
+    }
+
+    fun retryHymnsDownload() = downloadHymns()
 }

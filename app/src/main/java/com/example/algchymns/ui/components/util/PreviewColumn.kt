@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.example.algchymns.appGradientMod
 import com.example.algchymns.ui.theme.AlgcHymnsTheme
 
@@ -22,6 +21,7 @@ fun PreviewColumn(
     modifier: Modifier = Modifier,
     enablePadding: Boolean = true,
     maybeBgColor: Color? = null,
+    showWatermark: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     AlgcHymnsTheme {
@@ -34,7 +34,9 @@ fun PreviewColumn(
                 .padding(vertical = verticalPadding),
             contentAlignment = Alignment.Center,
         ) {
-            BackgroundLayer()
+            BackgroundLayer(
+                isHymnsLoaded = showWatermark
+            )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp),

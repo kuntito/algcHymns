@@ -2,7 +2,7 @@ package com.example.algchymns.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val colorIju = Color(0xFF29235D)
+val colorIju = Color(0xFF393182)
 val colorCreed = Color(0xFF00003F)
 val colorLife = Color(0xFFFFFFFF)
 val colorHoly = Color(0xFFB4CBED)

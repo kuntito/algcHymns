@@ -1,4 +1,4 @@
-package com.example.algchymns.ui.components.util
+package com.example.algchymns.ui.components.util.buttons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

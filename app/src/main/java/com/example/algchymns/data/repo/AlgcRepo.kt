@@ -13,17 +13,21 @@ class AlgcRepo(
     private val hymnDao: HymnDao,
     private val algcDs: AlgcApiDataSource,
 ) {
-
-    fun getAllHymns(): Flow<List<HymnWithVersesEntity>> = flow {
+    suspend fun getCachedHymns(): List<HymnWithVersesEntity>  {
         val allHymns = hymnDao.getAllHymnsWithVerses().first()
+        return allHymns
+    }
 
-        if (allHymns.isEmpty()) {
+
+    suspend fun downloadHymns(): List<HymnWithVersesEntity>? {
+        return try {
             val response = algcDs.safeFetchAllHymns()
-            response?.allHymns?.let {
-                hymnDao.insertHymnsWithVerses(it)
-            }
-        }
+            val maybeFetchedHymns = response?.allHymns ?: return null
 
-        emitAll(hymnDao.getAllHymnsWithVerses())
+            hymnDao.insertHymnsWithVerses(maybeFetchedHymns)
+            getCachedHymns()
+        } catch (e: Exception) {
+            null
+        }
     }
 }
