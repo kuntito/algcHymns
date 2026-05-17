@@ -1,4 +1,4 @@
-package com.example.algchymns.ui.components.screens.home_screen.fragments.components
+package com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_list_fragment.components
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

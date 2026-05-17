@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.algchymns.HymnViewModel
 import com.example.algchymns.ui.components.screens.home_screen.components.HomeScreenTopBar
-import com.example.algchymns.ui.components.screens.home_screen.fragments.HymnListFragment
+import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_list_fragment.HymnListFragment
 import com.example.algchymns.ui.components.screens.home_screen.fragments.HymnSearchFragment
 import com.example.algchymns.ui.components.screens.home_screen.models.HymnSyncState
 import com.example.algchymns.ui.components.util.PreviewColumn

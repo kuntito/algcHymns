@@ -1,4 +1,4 @@
-package com.example.algchymns.ui.components.screens.home_screen.fragments
+package com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_list_fragment
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +15,7 @@ import com.example.algchymns.ui.components.screens.home_screen.components.HymnDo
 import com.example.algchymns.ui.components.screens.home_screen.components.OngoingHymnDownload
 import com.example.algchymns.ui.components.screens.home_screen.components.OngoingHymnUpdate
 import com.example.algchymns.ui.components.screens.home_screen.models.HymnSyncState
-import com.example.algchymns.ui.components.screens.home_screen.fragments.components.HymnList
+import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_list_fragment.components.HymnList
 import com.example.algchymns.ui.components.util.PreviewColumn
 import com.example.algchymns.ui.components.util.buttons.AppOutlineButton
 
