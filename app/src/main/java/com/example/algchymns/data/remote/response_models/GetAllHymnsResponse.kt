@@ -31,7 +31,7 @@ data class GetAllHymnsResponse(
 val dummyHymnVerse = HymnVerse(
     id = 0,
     verseType = VerseType.VERSE,
-    verseOrder = 0,
+    verseOrder = 1,
     verseLines = listOf(
         "Above all Powers, Above all Kings",
         "Above all nature and all created things",
@@ -45,18 +45,56 @@ val dummyChorus = HymnVerse(
     verseType = VerseType.CHORUS,
     verseOrder = 1,
     verseLines = listOf(
-        "Crucified, laid behind a stone",
-        "You lived to die, rejected and alone",
-        "Like a rose, trampled on the ground",
-        "You took the fall, and thought of me, above all"
+        "Great is Thy faithfulness",
+        "Great is Thy faithfulness",
+        "Morning by morning new mercies I see",
+        "All I have needed Thy hand hath provided",
+        "Great is Thy faithfulness, Lord unto me"
     )
 )
 
 val dummyHymn = Hymn(
     id = 1,
-    title = "Above All Power",
+    title = "Great Is Thy Faithfulness",
     updatedAt = "2026-01-01T00:00:00Z",
-    verses = listOf(dummyHymnVerse, dummyChorus)
+    verses = listOf(
+        HymnVerse(
+            id = 0,
+            verseType = VerseType.VERSE,
+            verseOrder = 1,
+            verseLines = listOf(
+                "Great is Thy faithfulness, O God my Father",
+                "There is no shadow of turning with Thee",
+                "Thou changest not, Thy compassions they fail not",
+                "As Thou hast been, Thou forever will be"
+            )
+        ),
+        dummyChorus,
+        HymnVerse(
+            id = 2,
+            verseType = VerseType.VERSE,
+            verseOrder = 2,
+            verseLines = listOf(
+                "Summer and winter and springtime and harvest",
+                "Sun, moon and stars in their courses above",
+                "Join with all nature in manifold witness",
+                "To Thy great faithfulness, mercy and love"
+            )
+        ),
+        dummyChorus,
+        HymnVerse(
+            id = 4,
+            verseType = VerseType.VERSE,
+            verseOrder = 3,
+            verseLines = listOf(
+                "Pardon for sin and a peace that endureth",
+                "Thine own dear presence to cheer and to guide",
+                "Strength for today and bright hope for tomorrow",
+                "Blessings all mine, with ten thousand beside"
+            )
+        ),
+        dummyChorus,
+    )
 )
 
 val dummyHymnList = listOf(

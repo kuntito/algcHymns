@@ -1,4 +1,4 @@
-package com.example.algchymns.ui.components.screens.home_screen.fragments
+package com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_search_fragment
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,12 +15,11 @@ import com.example.algchymns.HymnViewModel
 import com.example.algchymns.data.remote.response_models.Hymn
 import com.example.algchymns.ui.components.screens.home_screen.components.HomeScreenTopBar
 import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_list_fragment.HymnListFragment
-import com.example.algchymns.ui.components.screens.home_screen.fragments.HymnSearchFragment
+import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_search_fragment.HymnSearchFragment
 import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_lyrics_fragment.HymnLyricsFragment
 import com.example.algchymns.ui.components.screens.home_screen.models.HomeFragmentsState
 import com.example.algchymns.ui.components.screens.home_screen.models.HymnSyncState
 import com.example.algchymns.ui.components.util.PreviewColumn
-import com.example.algchymns.ui.components.util.rememberCustomTextFieldState
 
 @Composable
 fun HomeScreenRoot(
@@ -59,8 +57,6 @@ fun HomeScreen(
     onHymnClick: (Hymn) -> Unit,
     retryHymnsDownload: () -> Unit,
 ) {
-
-
 
     Scaffold(
         topBar = {
