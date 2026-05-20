@@ -28,9 +28,10 @@ fun HymnListItem(
     hymnNumber: Int,
     hymnTitle: String,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     ClickableSurface(
-        onClick = {},
+        onClick = onClick,
         isRippleBounded = true,
     ) {
         val itemShape = RoundedCornerShape(16.dp)
@@ -80,7 +81,8 @@ private fun HymnListItemPreview() {
         ) {
             HymnListItem(
                 1,
-                "Great is Thy Faithfulness "
+                "Great is Thy Faithfulness ",
+                onClick = {},
             )
        }
     }

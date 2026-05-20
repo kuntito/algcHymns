@@ -10,6 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.algchymns.data.remote.response_models.Hymn
 import com.example.algchymns.data.remote.response_models.dummyHymnList
 import com.example.algchymns.ui.components.screens.home_screen.components.HymnDownloadError
 import com.example.algchymns.ui.components.screens.home_screen.components.OngoingHymnDownload
@@ -23,6 +24,7 @@ import com.example.algchymns.ui.components.util.buttons.AppOutlineButton
 fun HymnListFragment(
     hymnSyncState: HymnSyncState,
     retryHymnsDownload: () -> Unit,
+    onHymnClick: (Hymn) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -45,7 +47,8 @@ fun HymnListFragment(
             }
             is HymnSyncState.HymnsLoaded -> {
                 HymnList(
-                    hymnItems = hymnSyncState.hymns
+                    hymnItems = hymnSyncState.hymns,
+                    onHymnClick = onHymnClick,
                 )
             }
             HymnSyncState.HymnsUpdate -> {
@@ -94,6 +97,7 @@ private fun HymnListFragmentPreview() {
         HymnListFragment(
             retryHymnsDownload = {},
             hymnSyncState = hymnSyncState,
+            onHymnClick = { _ -> }
         )
     }
 }

@@ -18,6 +18,7 @@ import com.example.algchymns.ui.components.util.PreviewColumn
 @Composable
 fun HymnList(
     hymnItems: List<Hymn>,
+    onHymnClick: (Hymn) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
@@ -34,6 +35,7 @@ fun HymnList(
             HymnListItem(
                 hymnNumber = index + 1,
                 hymnTitle = hymn.title,
+                onClick = { onHymnClick(hymn) },
             )
         }
         item {
@@ -48,7 +50,10 @@ fun HymnList(
 private fun HymnListPreview() {
     PreviewColumn {
         HymnList(
-            hymnItems = dummyHymnList
+            hymnItems = dummyHymnList,
+            onHymnClick = { _ ->
+
+            }
         )
     }
 }
