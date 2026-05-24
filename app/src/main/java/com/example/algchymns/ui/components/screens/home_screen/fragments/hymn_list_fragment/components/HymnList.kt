@@ -29,7 +29,7 @@ fun HymnList(
     ) {
         item {
             Spacer(modifier = Modifier
-                .height(16.dp))
+                .height(8.dp))
         }
         itemsIndexed(hymnItems){ index, hymn ->
             HymnListItem(
