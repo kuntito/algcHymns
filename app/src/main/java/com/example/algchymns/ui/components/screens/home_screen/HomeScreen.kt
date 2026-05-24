@@ -87,7 +87,7 @@ fun HomeScreen(
                 }
 
                 HomeFragmentsState.HymnSearch -> {
-                    HymnSearchFragment()
+//                    HymnSearchFragment()
                 }
 
                 is HomeFragmentsState.HymnLyrics -> {

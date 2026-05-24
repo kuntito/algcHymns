@@ -16,14 +16,15 @@ import com.example.algchymns.ui.theme.colorWorship
 
 @Composable
 fun GradientLine(
+    modifier: Modifier = Modifier,
     colorStart: Color,
     colorTrail: Color,
-    modifier: Modifier = Modifier,
+    height: Int = 1,
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(1.dp)
+            .height(height.dp)
             .background(
                 brush = Brush.horizontalGradient(
                     colorStops = arrayOf(
