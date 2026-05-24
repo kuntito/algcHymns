@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.algchymns.data.remote.response_models.Hymn
 import com.example.algchymns.data.remote.response_models.dummyHymnList
 import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_search_fragment.components.NoSearchResultIndicator
 import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_search_fragment.components.OngoingSearchIndicator
@@ -24,6 +25,7 @@ import com.example.algchymns.ui.theme.tsOrion
 fun HymnSearchFragment(
     modifier: Modifier = Modifier,
     hymnSearchFragmentState: HymnSearchFragmentState,
+    onHymnClick: (Hymn) -> Unit,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -32,9 +34,11 @@ fun HymnSearchFragment(
         ,
     ) {
         when(hymnSearchFragmentState) {
+            HymnSearchFragmentState.Idle -> {}
             is HymnSearchFragmentState.RecentSearches -> {
                 RecentSearchesFrame(
-                    recentHymns = hymnSearchFragmentState.recentSearches
+                    recentHymns = hymnSearchFragmentState.recentSearches,
+                    onHymnClick = onHymnClick,
                 )
             }
             HymnSearchFragmentState.Searching -> {
@@ -42,10 +46,11 @@ fun HymnSearchFragment(
             }
             is HymnSearchFragmentState.HasSearchResults -> {
                 SearchResultsFrame(
-                    hymnSearchResults = hymnSearchFragmentState.searchResults
+                    hymnSearchResults = hymnSearchFragmentState.searchResults,
+                    onHymnClick = onHymnClick,
                 )
             }
-            HymnSearchFragmentState.NoSearchFragmentResults -> {
+            HymnSearchFragmentState.NoSearchResults -> {
                 NoSearchResultIndicator()
             }
         }
@@ -65,6 +70,11 @@ private fun HymnSearchFragmentPreview() {
 
     val toggleState: (HymnSearchFragmentState) -> Unit = { hfs ->
         when(hfs) {
+            is HymnSearchFragmentState.Idle -> {
+                hymnSearchFragmentState = HymnSearchFragmentState.RecentSearches(
+                    recentSearches = recentSearches
+                )
+            }
             is HymnSearchFragmentState.RecentSearches -> {
                 hymnSearchFragmentState = HymnSearchFragmentState.Searching
             }
@@ -74,12 +84,10 @@ private fun HymnSearchFragmentPreview() {
                 )
             }
             is HymnSearchFragmentState.HasSearchResults -> {
-                hymnSearchFragmentState = HymnSearchFragmentState.NoSearchFragmentResults
+                hymnSearchFragmentState = HymnSearchFragmentState.NoSearchResults
             }
-            HymnSearchFragmentState.NoSearchFragmentResults -> {
-                hymnSearchFragmentState = HymnSearchFragmentState.RecentSearches(
-                    recentSearches = recentSearches
-                )
+            HymnSearchFragmentState.NoSearchResults -> {
+                hymnSearchFragmentState = HymnSearchFragmentState.Idle
             }
         }
 
@@ -95,7 +103,8 @@ private fun HymnSearchFragmentPreview() {
             )
         }
         HymnSearchFragment(
-            hymnSearchFragmentState = hymnSearchFragmentState
+            hymnSearchFragmentState = hymnSearchFragmentState,
+            onHymnClick = { _ -> }
         )
     }
 }

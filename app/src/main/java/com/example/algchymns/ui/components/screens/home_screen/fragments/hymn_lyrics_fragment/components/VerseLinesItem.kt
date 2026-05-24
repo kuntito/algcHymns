@@ -28,7 +28,7 @@ fun VerseLyrics(
 
     val verseLines = verse.verseLines
     Column(
-        verticalArrangement = Arrangement.spacedBy(3.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
         modifier = modifier
             .fillMaxWidth()
         ,

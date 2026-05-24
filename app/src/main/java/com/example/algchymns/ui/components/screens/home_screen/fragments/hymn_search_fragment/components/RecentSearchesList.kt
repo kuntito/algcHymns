@@ -15,15 +15,17 @@ import com.example.algchymns.ui.components.util.PreviewColumn
 fun RecentSearchesList(
     modifier: Modifier = Modifier,
     recentHymnSearches: List<Hymn>,
+    onHymnClick: (Hymn) -> Unit,
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(vertical = 16.dp),
+        contentPadding = PaddingValues(top = 8.dp, bottom = 16.dp),
         modifier = modifier
         ,
     ) {
         items(items = recentHymnSearches) { h ->
             RecentSearchLi(
-                hymn = h
+                hymn = h,
+                onClick = { onHymnClick(h) }
             )
         }
     }
@@ -35,7 +37,8 @@ private fun RecentSearchesListPreview() {
     val recentHymnSearches = dummyHymnList
     PreviewColumn {
         RecentSearchesList(
-            recentHymnSearches = recentHymnSearches
+            recentHymnSearches = recentHymnSearches,
+            onHymnClick = {},
         )
     }
 }

@@ -30,4 +30,8 @@ class AlgcRepo(
             null
         }
     }
+
+    suspend fun searchForHymns(query: String): List<HymnWithVersesEntity> {
+        return hymnDao.searchForHymns(query)
+    }
 }

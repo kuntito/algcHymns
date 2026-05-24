@@ -25,8 +25,8 @@ import com.example.algchymns.ui.theme.tsOrion
 fun RecentSearchLi(
     modifier: Modifier = Modifier,
     hymn: Hymn,
+    onClick: () -> Unit,
 ) {
-    val onClick = {}
     ClickableSurface(
         onClick = onClick,
         isRippleBounded = true,
@@ -65,6 +65,7 @@ private fun HymnSearchLiPreview() {
     PreviewColumn {
         RecentSearchLi(
             hymn = dummyHymn,
+            onClick = {},
         )
     }
 }

@@ -16,15 +16,18 @@ import com.example.algchymns.ui.components.util.PreviewColumn
 fun SearchResultsFrame(
     modifier: Modifier = Modifier,
     hymnSearchResults: List<Hymn>,
+    onHymnClick: (Hymn) -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
     ) {
+        Spacer(modifier = Modifier.height(10.dp))
         SearchResultsHeader()
         Spacer(modifier = Modifier.height(10.dp))
         HymnSearchResultList(
-            hymns = hymnSearchResults
+            hymns = hymnSearchResults,
+            onHymnClick = onHymnClick,
         )
     }
 }
@@ -35,7 +38,8 @@ private fun SearchResultsFramePreview() {
     val hymns = dummyHymnList
     PreviewColumn {
         SearchResultsFrame(
-            hymnSearchResults = hymns
+            hymnSearchResults = hymns,
+            onHymnClick = { _ -> }
         )
     }
 }

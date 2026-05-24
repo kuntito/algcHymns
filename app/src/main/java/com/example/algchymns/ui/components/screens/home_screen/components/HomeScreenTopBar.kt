@@ -14,6 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -23,7 +26,6 @@ import com.example.algchymns.R
 import com.example.algchymns.ui.components.screens.home_screen.models.HomeFragmentsState
 import com.example.algchymns.ui.components.util.AppDropdownMenu
 import com.example.algchymns.ui.components.util.AppIconButton
-import com.example.algchymns.ui.components.util.CustomTextFieldState
 import com.example.algchymns.ui.components.util.PreviewColumn
 import com.example.algchymns.ui.components.util.rememberCustomTextFieldState
 import com.example.algchymns.ui.theme.colorHoly
@@ -47,18 +49,34 @@ fun HomeScreenTopBar(
     }
 
     val isAwayFromHymnList = homeFragmentsState != HomeFragmentsState.HymnList
-    val onResetSearchBar = {
-        navBack()
+
+
+    val clearSearchBar = {
         searchFieldState.clearText(
-            isTyping = false
+            hideKeyboard = true
         )
         searchFieldState.onFocusChange(false)
+    }
+
+    val handleNavBack = {
+        navBack()
+        clearSearchBar()
     }
 
     BackHandler(
         enabled = isAwayFromHymnList
     ) {
-        onResetSearchBar()
+        handleNavBack()
+    }
+
+    var previousFragmentsState by remember { mutableStateOf(homeFragmentsState) }
+    LaunchedEffect(homeFragmentsState) {
+        val isLeftHymnSearch = previousFragmentsState is HomeFragmentsState.HymnSearch
+                && homeFragmentsState !is HomeFragmentsState.HymnSearch
+        if (isLeftHymnSearch) {
+            clearSearchBar()
+        }
+        previousFragmentsState = homeFragmentsState
     }
 
     Row(
@@ -78,7 +96,7 @@ fun HomeScreenTopBar(
             AppIconButton(
                 iconRes = R.drawable.ic_left_chevron,
                 color = colorHoly,
-                onClick = onResetSearchBar,
+                onClick = handleNavBack,
             )
         }
         if (homeFragmentsState is HomeFragmentsState.HymnLyrics) {

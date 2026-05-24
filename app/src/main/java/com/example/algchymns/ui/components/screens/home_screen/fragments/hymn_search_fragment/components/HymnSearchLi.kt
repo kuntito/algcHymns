@@ -26,8 +26,8 @@ import com.example.algchymns.ui.theme.tsOrion
 fun HymnSearchLi(
     modifier: Modifier = Modifier,
     hymn: Hymn,
+    onClick: () -> Unit,
 ) {
-    val onClick = {}
     ClickableSurface(
         onClick = onClick,
         isRippleBounded = true,
@@ -66,6 +66,7 @@ private fun HymnSearchLiPreview() {
     PreviewColumn {
         HymnSearchLi(
             hymn = dummyHymn,
+            onClick = {}
         )
     }
 }

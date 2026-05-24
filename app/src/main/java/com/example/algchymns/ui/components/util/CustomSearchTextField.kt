@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,6 +39,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.algchymns.ui.theme.colorDim
 import com.example.algchymns.ui.theme.colorHoly
+import com.example.algchymns.ui.theme.colorIju
+import com.example.algchymns.ui.theme.colorTestimony
 import com.example.algchymns.ui.theme.tsOrion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
@@ -128,15 +131,14 @@ class CustomTextFieldState(
     }
 
     fun clearText(
-        isTyping: Boolean = true,
+        hideKeyboard: Boolean = false,
     ) {
         _textFieldValue.value = TextFieldValue("")
 
-        if (isTyping) {
-            // if keyboard is hidden, i assume user wants to type.
-            keyboard?.show()
-        } else {
+        if (hideKeyboard) {
             keyboard?.hide()
+        } else {
+            keyboard?.show()
         }
     }
 
@@ -175,6 +177,7 @@ fun CustomSearchTextField(
 ) {
 
     val textFieldValue by textFieldState.textFieldValue.collectAsState()
+    val isFocused by textFieldState.isFocused.collectAsState()
 
     val indicatorColor = Color.Transparent
     val colors = TextFieldDefaults.colors(
@@ -230,6 +233,20 @@ fun CustomSearchTextField(
                     }
                 },
                 colors = colors,
+                placeholder = if (isFocused) {
+                    {
+                        Text(
+                            text = "search by title or lyrics",
+                            style = tsOrion
+                                .copy(
+                                    color = colorDim
+                                        .copy(
+                                            alpha = 0.3f
+                                        )
+                                )
+                        )
+                    }
+                } else null
             )
         },
         modifier = modifier

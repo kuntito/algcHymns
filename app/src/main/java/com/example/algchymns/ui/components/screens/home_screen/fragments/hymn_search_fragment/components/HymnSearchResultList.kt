@@ -15,16 +15,18 @@ import com.example.algchymns.ui.components.util.PreviewColumn
 @Composable
 fun HymnSearchResultList(
     modifier: Modifier = Modifier,
-    hymns: List<Hymn>
+    hymns: List<Hymn>,
+    onHymnClick: (Hymn) -> Unit,
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(vertical = 16.dp),
+        contentPadding = PaddingValues(top = 8.dp, bottom = 16.dp),
         modifier = modifier
         ,
     ) {
         items(items = hymns) { h ->
             HymnSearchLi(
-                hymn = h
+                hymn = h,
+                onClick = { onHymnClick(h) }
             )
         }
     }
@@ -36,8 +38,10 @@ private fun HymnSearchResultListPreview() {
     PreviewColumn() {
         HymnSearchResultList(
             hymns = dummyHymnList,
+            onHymnClick = { _ -> },
             modifier = Modifier
                 .padding(horizontal = 16.dp)
+            ,
         )
     }
 }

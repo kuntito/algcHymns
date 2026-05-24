@@ -16,16 +16,21 @@ import com.example.algchymns.ui.components.util.PreviewColumn
 fun RecentSearchesFrame(
     modifier: Modifier = Modifier,
     recentHymns: List<Hymn>,
+    onHymnClick: (Hymn) -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
         ,
     ) {
-        RecentSearchesHeader()
+        Spacer(modifier = Modifier.height(10.dp))
+        RecentSearchesHeader(
+            hasRecentSearches = recentHymns.isNotEmpty()
+        )
         Spacer(modifier = Modifier.height(10.dp))
         RecentSearchesList(
             recentHymnSearches = recentHymns,
+            onHymnClick = onHymnClick,
         )
     }
 }
@@ -37,6 +42,7 @@ private fun RecentSearchesFramePreview() {
     PreviewColumn {
         RecentSearchesFrame(
             recentHymns = recentHymns,
+            onHymnClick = { _ -> },
         )
     }
 }

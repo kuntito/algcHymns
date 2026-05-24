@@ -30,4 +30,15 @@ interface HymnDao {
         insertHymns(hymnEntities)
         insertVerses(verseEntities)
     }
+
+    @Transaction
+    @Query("""
+        SELECT * FROM hymns
+        WHERE title LIKE '%' || :query || '%'
+        OR hymnId IN (
+            SELECT hymnId FROM hymn_verses
+            WHERE verseLines LIKE '%' || :query || '%'
+        )
+    """)
+    suspend fun searchForHymns(query: String): List<HymnWithVersesEntity>
 }

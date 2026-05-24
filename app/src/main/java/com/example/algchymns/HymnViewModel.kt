@@ -5,10 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.algchymns.data.db.hymn.toHymn
 import com.example.algchymns.data.remote.response_models.Hymn
 import com.example.algchymns.data.repo.AlgcRepo
+import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_search_fragment.models.HymnSearchFragmentState
 import com.example.algchymns.ui.components.screens.home_screen.models.HomeFragmentsState
 import com.example.algchymns.ui.components.screens.home_screen.models.HymnSyncState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class HymnViewModel(
@@ -28,6 +34,19 @@ class HymnViewModel(
     val homeFragmentsState: StateFlow<HomeFragmentsState>
         get() = _homeFragmentsState
 
+    private val _hymnSearchFragmentState = MutableStateFlow<HymnSearchFragmentState>(
+        HymnSearchFragmentState.RecentSearches(
+            // TODO, start here,  implement recent searches items
+            recentSearches = getRecentSearches()
+        )
+    )
+    val hymnSearchFragmentState: StateFlow<HymnSearchFragmentState>
+        get() = _hymnSearchFragmentState
+
+
+    fun getRecentSearches(): List<Hymn> {
+        return emptyList()
+    }
 
     fun onHymnClick(hymn: Hymn) {
         _homeFragmentsState.value = HomeFragmentsState.HymnLyrics(hymn)
@@ -36,13 +55,12 @@ class HymnViewModel(
     fun handleSearchFocusChange(isSearchFocused: Boolean) {
         if (isSearchFocused) {
             _homeFragmentsState.value = HomeFragmentsState.HymnSearch
-        } else {
-            _homeFragmentsState.value = HomeFragmentsState.HymnList
         }
     }
 
     fun onNavBack() {
         _homeFragmentsState.value = HomeFragmentsState.HymnList
+        _hymnSearchFragmentState.value = HymnSearchFragmentState.Idle
     }
 
     init {
@@ -74,4 +92,37 @@ class HymnViewModel(
     }
 
     fun retryHymnsDownload() = downloadHymns()
+
+    suspend fun searchForHymns(query: String): List<Hymn> {
+        val hymnEntities = repo.searchForHymns(query)
+        val foundHymns = hymnEntities.map { it.toHymn() }
+        return foundHymns
+    }
+
+    var hymnSearchJob: Job? = null
+    fun onSearchQueryChange(query: String) {
+        if (_homeFragmentsState.value == HomeFragmentsState.HymnSearch) {
+            if (query.isEmpty()) {
+                _hymnSearchFragmentState.value = HymnSearchFragmentState.RecentSearches(
+                    recentSearches = getRecentSearches()
+                )
+            } else if (query.isNotBlank()) {
+                hymnSearchJob?.cancel()
+                hymnSearchJob = viewModelScope.launch {
+                    _hymnSearchFragmentState.value = HymnSearchFragmentState.Searching
+
+                    val foundHymns = searchForHymns(query)
+                    if (foundHymns.isEmpty()) {
+                        _hymnSearchFragmentState.value = HymnSearchFragmentState.NoSearchResults
+                    } else {
+                        _hymnSearchFragmentState.value = HymnSearchFragmentState.HasSearchResults(
+                            searchResults = foundHymns
+                        )
+                    }
+                }
+            } else {
+                _hymnSearchFragmentState.value = HymnSearchFragmentState.NoSearchResults
+            }
+        }
+    }
 }

@@ -17,6 +17,7 @@ import com.example.algchymns.ui.components.screens.home_screen.components.HomeSc
 import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_list_fragment.HymnListFragment
 import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_search_fragment.HymnSearchFragment
 import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_lyrics_fragment.HymnLyricsFragment
+import com.example.algchymns.ui.components.screens.home_screen.fragments.hymn_search_fragment.models.HymnSearchFragmentState
 import com.example.algchymns.ui.components.screens.home_screen.models.HomeFragmentsState
 import com.example.algchymns.ui.components.screens.home_screen.models.HymnSyncState
 import com.example.algchymns.ui.components.util.PreviewColumn
@@ -29,20 +30,24 @@ fun HomeScreenRoot(
     val retryHymnsDownload = hymnViewModel::retryHymnsDownload
 
     val homeFragmentsState by hymnViewModel.homeFragmentsState.collectAsState()
+    val hymnSearchFragmentState by hymnViewModel.hymnSearchFragmentState.collectAsState()
 
 
     val handleSearchFocusChange = hymnViewModel::handleSearchFocusChange
     val onNavBack = hymnViewModel::onNavBack
     val onHymnClick = hymnViewModel::onHymnClick
 
+    val onSearchQueryChange = hymnViewModel::onSearchQueryChange
+
     HomeScreen(
         hymnSyncState = hymnSyncState,
         homeFragmentsState = homeFragmentsState,
-        onSearchQueryChange = { _ ->},
+        onSearchQueryChange = onSearchQueryChange,
         retryHymnsDownload = retryHymnsDownload,
         navBack = onNavBack,
         handleSearchFocusChange = handleSearchFocusChange,
         onHymnClick = onHymnClick,
+        hymnSearchFragmentState = hymnSearchFragmentState,
     )
 }
 
@@ -56,6 +61,7 @@ fun HomeScreen(
     handleSearchFocusChange: (Boolean) -> Unit,
     onHymnClick: (Hymn) -> Unit,
     retryHymnsDownload: () -> Unit,
+    hymnSearchFragmentState: HymnSearchFragmentState,
 ) {
 
     Scaffold(
@@ -87,7 +93,10 @@ fun HomeScreen(
                 }
 
                 HomeFragmentsState.HymnSearch -> {
-//                    HymnSearchFragment()
+                    HymnSearchFragment(
+                        hymnSearchFragmentState = hymnSearchFragmentState,
+                        onHymnClick = onHymnClick,
+                    )
                 }
 
                 is HomeFragmentsState.HymnLyrics -> {
