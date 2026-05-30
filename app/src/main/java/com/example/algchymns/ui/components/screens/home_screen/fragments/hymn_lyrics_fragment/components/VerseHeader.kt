@@ -8,38 +8,53 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.algchymns.data.remote.response_models.HymnVerse
-import com.example.algchymns.data.remote.response_models.VerseType
-import com.example.algchymns.data.remote.response_models.dummyChorus
-import com.example.algchymns.data.remote.response_models.dummyHymnVerse
 import com.example.algchymns.ui.components.util.PreviewColumn
 import com.example.algchymns.ui.theme.colorCreed
 import com.example.algchymns.ui.theme.colorTestimony
 import com.example.algchymns.ui.theme.colorWorship
 import com.example.algchymns.ui.theme.tsOrionMono
 
+
 @Composable
 fun VerseHeader(
-    hymnVerse: HymnVerse,
+    verseOrder: Int,
     modifier: Modifier = Modifier,
 ) {
-    val isVerse = hymnVerse.verseType == VerseType.VERSE
-    val text = if (isVerse) {
-        "verse ${hymnVerse.verseOrder}"
-    } else {
-        "chorus"
-    }
-    val color = if (isVerse) colorWorship else colorTestimony
+    VerseHeaderBase(
+        label = "verse $verseOrder",
+        color = colorWorship,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun ChorusHeader(
+    modifier: Modifier = Modifier,
+) {
+    VerseHeaderBase(
+        label = "chorus",
+        color = colorTestimony,
+        modifier = modifier,
+    )
+}
+
+@Composable
+fun VerseHeaderBase(
+    modifier: Modifier = Modifier,
+    label: String,
+    color: Color,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .alpha(0.5f)
+            .alpha(0.8f)
         ,
     ) {
         Text(
-            text = text,
+            text = label,
             style = tsOrionMono,
             color = color,
         )
@@ -55,7 +70,9 @@ fun VerseHeader(
 @Composable
 private fun VerseHeaderPreview() {
     PreviewColumn {
-        VerseHeader(hymnVerse = dummyHymnVerse)
-        VerseHeader(hymnVerse = dummyChorus)
+        VerseHeader(
+            verseOrder = 1
+        )
+        ChorusHeader()
     }
 }
