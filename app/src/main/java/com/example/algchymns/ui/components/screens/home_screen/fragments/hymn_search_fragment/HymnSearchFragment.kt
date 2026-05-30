@@ -7,6 +7,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,12 +36,6 @@ fun HymnSearchFragment(
     ) {
         when(hymnSearchFragmentState) {
             HymnSearchFragmentState.Idle -> {}
-            is HymnSearchFragmentState.RecentSearches -> {
-                RecentSearchesFrame(
-                    recentHymns = hymnSearchFragmentState.recentSearches,
-                    onHymnClick = onHymnClick,
-                )
-            }
             HymnSearchFragmentState.Searching -> {
                 OngoingSearchIndicator()
             }
@@ -60,22 +55,16 @@ fun HymnSearchFragment(
 @Preview
 @Composable
 private fun HymnSearchFragmentPreview() {
-    val recentSearches = dummyHymnList.take(5)
     val hymnSearchResults = dummyHymnList
-    var hymnSearchFragmentState: HymnSearchFragmentState by mutableStateOf(
-        HymnSearchFragmentState.RecentSearches(
-            recentSearches = recentSearches
+    var hymnSearchFragmentState: HymnSearchFragmentState by remember {
+        mutableStateOf(
+            HymnSearchFragmentState.Idle
         )
-    )
+    }
 
     val toggleState: (HymnSearchFragmentState) -> Unit = { hfs ->
         when(hfs) {
             is HymnSearchFragmentState.Idle -> {
-                hymnSearchFragmentState = HymnSearchFragmentState.RecentSearches(
-                    recentSearches = recentSearches
-                )
-            }
-            is HymnSearchFragmentState.RecentSearches -> {
                 hymnSearchFragmentState = HymnSearchFragmentState.Searching
             }
             HymnSearchFragmentState.Searching -> {

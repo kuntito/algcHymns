@@ -35,18 +35,10 @@ class HymnViewModel(
         get() = _homeFragmentsState
 
     private val _hymnSearchFragmentState = MutableStateFlow<HymnSearchFragmentState>(
-        HymnSearchFragmentState.RecentSearches(
-            // TODO, start here,  implement recent searches items
-            recentSearches = getRecentSearches()
-        )
+        HymnSearchFragmentState.Idle
     )
     val hymnSearchFragmentState: StateFlow<HymnSearchFragmentState>
         get() = _hymnSearchFragmentState
-
-
-    fun getRecentSearches(): List<Hymn> {
-        return emptyList()
-    }
 
     fun onHymnClick(hymn: Hymn) {
         _homeFragmentsState.value = HomeFragmentsState.HymnLyrics(hymn)
@@ -103,9 +95,7 @@ class HymnViewModel(
     fun onSearchQueryChange(query: String) {
         if (_homeFragmentsState.value == HomeFragmentsState.HymnSearch) {
             if (query.isEmpty()) {
-                _hymnSearchFragmentState.value = HymnSearchFragmentState.RecentSearches(
-                    recentSearches = getRecentSearches()
-                )
+                _hymnSearchFragmentState.value = HymnSearchFragmentState.Idle
             } else if (query.isNotBlank()) {
                 hymnSearchJob?.cancel()
                 hymnSearchJob = viewModelScope.launch {
